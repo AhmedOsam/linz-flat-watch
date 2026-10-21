@@ -1,0 +1,31 @@
+{
+  "jku": [
+    48.3366,
+    14.3196
+  ],
+  "max_km": 5,
+  "max_rent": 1000,
+  "min_size": 0,
+  "near_plz": [
+    "4040",
+    "4209",
+    "4210",
+    "4203",
+    "4221",
+    "4048"
+  ],
+  "near_places": [
+    "urfahr",
+    "dornach",
+    "auhof",
+    "magdalena",
+    "pöstlingberg",
+    "puchenau",
+    "altenberg",
+    "engerwitzdorf",
+    "gallneukirchen",
+    "steyregg",
+    "katzbach",
+    "elmberg"
+  ]
+}
