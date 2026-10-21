@@ -114,7 +114,7 @@ def notify(subject, text):
     results = [send_email(subject, text), send_whatsapp(text)]
     if all(r is None for r in results):
         print(f"--- (dry run, no channel configured) ---\n{subject}\n{text}")
-        return True
+        return None
     return any(results)
 
 
@@ -143,7 +143,6 @@ def main():
     state = load_state()
     meta, seen, fps = state["meta"], state["seen"], state["fps"]
     now = int(time.time())
-    first_ever = not meta["seeded"]
     alerts, broken = [], []
 
     for name, fn in sources.ALL.items():
@@ -186,10 +185,11 @@ def main():
             meta["seeded"].append(name)
     save_state(state)
 
-    if first_ever and meta["seeded"]:
-        notify("Flat watcher is live",
+    if not meta.get("hello") and meta["seeded"]:
+        meta["hello"] = notify("Flat watcher is live",
                f"Watching willhaben and the Linz Genossenschaften for rentals within {CONFIG['max_km']:g} km of JKU, "
-               f"max EUR {CONFIG['max_rent']} (Miete + BK). Each new flat arrives as its own message.")
+               f"max EUR {CONFIG['max_rent']} (Miete + BK). Each new flat arrives as its own message.") is True
+        save_state(state)
 
     sent = 0
     for key, item in sorted(alerts, key=lambda kv: 99 if kv[1].get("km") is None else kv[1]["km"]):
@@ -201,7 +201,7 @@ def main():
             save_state(state)
             continue
         try:
-            ok = notify(f"New flat near JKU: {summary(item)}", fmt(item))
+            ok = notify(f"New flat near JKU: {summary(item)}", fmt(item)) is not False
         except Exception as e:
             print(f"notify crashed for {key}: {e}", file=sys.stderr)
             ok = False
