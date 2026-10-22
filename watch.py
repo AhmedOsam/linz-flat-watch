@@ -29,7 +29,7 @@ def km_to_jku(lat, lon):
 
 def matches(item):
     title = item.get("title") or ""
-    if re.search(r"stellpl|parkpl", title, re.I) and not re.search(r"wohnung|zimmer", title, re.I):
+    if re.search(r"stellpl|parkpl|garage", title, re.I) and not re.search(r"wohnung|zimmer", title, re.I):
         return False
     if item.get("price") is None or item["price"] > CONFIG["max_rent"]:
         return False
