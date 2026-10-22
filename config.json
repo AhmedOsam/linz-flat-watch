@@ -7,12 +7,7 @@
   "max_rent": 1000,
   "min_size": 0,
   "near_plz": [
-    "4040",
-    "4209",
-    "4210",
-    "4203",
-    "4221",
-    "4048"
+    "4040"
   ],
   "near_places": [
     "urfahr",
@@ -20,11 +15,6 @@
     "auhof",
     "magdalena",
     "pöstlingberg",
-    "puchenau",
-    "altenberg",
-    "engerwitzdorf",
-    "gallneukirchen",
-    "steyregg",
     "katzbach",
     "elmberg"
   ]

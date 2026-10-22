@@ -35,12 +35,15 @@ def matches(item):
         return False
     if item.get("size") and item["size"] < CONFIG["min_size"]:
         return False
+    plz = item.get("plz")
+    if plz and str(plz) not in CONFIG["near_plz"]:
+        return False
     if item.get("lat") is not None and item.get("lon") is not None:
         item["km"] = km_to_jku(item["lat"], item["lon"])
         return item["km"] <= CONFIG["max_km"]
-    # No coordinates: fall back to postcodes, then to place names near JKU.
-    if item.get("plz"):
-        return str(item["plz"]) in CONFIG["near_plz"]
+    if plz:
+        return True
+    # No postcode or coordinates: fall back to place names near JKU.
     text = f"{title} {item.get('address') or ''}".lower()
     return any(p in text for p in CONFIG["near_places"])
 

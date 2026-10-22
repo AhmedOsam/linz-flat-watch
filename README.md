@@ -3,7 +3,7 @@
 Checks willhaben and the Linz Genossenschaften every 10 minutes for rentals near JKU and sends each new one to WhatsApp.
 
 Filters (`config.json`): within `max_km` of JKU, Miete + BK up to `max_rent`, optional `min_size` in m2.
-Listings without coordinates are matched by `near_plz` or by place names in `near_places`.
+A listing with a postcode must be in `near_plz`; one with coordinates must also be within `max_km`. Listings with neither are matched by place names in `near_places`.
 
 Sources: willhaben (Linz, Urfahr-Umgebung), genossenschaften.immo (GWG, Lebensraeume, BRW, GIWOG, Familie, VLW, ...), GWG Linz, WSG, Neue Heimat OOE.
 
