@@ -117,31 +117,6 @@ def geo(url, ua):
     return (float(lat.group(1)), float(lon.group(1))) if lat and lon else None
 
 
-def gwg_linz(ua, cfg):
-    h = get("https://www.gwg-linz.at/immobilien-arten/wohnung/", ua)
-    if "Datenbankfehler" in h:
-        raise RuntimeError("gwg-linz.at database error page")
-    out = []
-    for c in h.split('<article class="col-xl-6 property')[1:]:
-        g = lambda p: (re.search(p, c, re.S) or [None, None])[1]
-        addr = _clean(g(r"</h3>\s*<div[^>]*>(.*?)</div>"))
-        out.append({
-            "src": "gwg",
-            "source": "Genossenschaft GWG-LINZ",
-            "id": g(r'name="in_cart" value="([^"]+)"'),
-            "title": _clean(g(r"<h3[^>]*>(.*?)</h3>")),
-            "price": _eur(g(r"Gesamtmiete:?\s*(?:&euro;|€)?\s*([\d.,]+)")),
-            "size": _eur(g(r"Wohnfläche:\s*([\d.,]+)")),
-            "address": addr,
-            "plz": _plz(addr),
-            "city": "",
-            "lat": _num(g(r'data-lat="([\d.]*)"')),
-            "lon": _num(g(r'data-lon="([\d.]*)"')),
-            "url": g(r'<a href="([^"]+)"'),
-        })
-    return out
-
-
 def wsg(ua, cfg):
     out = []
     for bezirk in ("Linz (L)", "Urfahr-Umgebung (UU)"):
@@ -199,7 +174,6 @@ def neue_heimat(ua, cfg):
 ALL = {
     "willhaben": willhaben,
     "genossenschaften.immo": genossenschaften_immo,
-    "gwg-linz": gwg_linz,
     "wsg": wsg,
     "neue-heimat": neue_heimat,
 }

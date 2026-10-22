@@ -5,7 +5,7 @@ Checks willhaben and the Linz Genossenschaften every 10 minutes for rentals near
 Filters (`config.json`): within `max_km` of JKU, Miete + BK up to `max_rent`, optional `min_size` in m2.
 A listing with a postcode must be in `near_plz`; one with coordinates must also be within `max_km`. Listings with neither are matched by place names in `near_places`.
 
-Sources: willhaben (Linz, Urfahr-Umgebung), genossenschaften.immo (GWG, Lebensraeume, BRW, GIWOG, Familie, VLW, ...), GWG Linz, WSG, Neue Heimat OOE.
+Sources: willhaben (Linz, Urfahr-Umgebung), genossenschaften.immo (GWG, Lebensraeume, BRW, GIWOG, Familie, VLW, ...), WSG, Neue Heimat OOE.
 
 ## Alert channels
 
