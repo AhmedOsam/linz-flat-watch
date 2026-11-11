@@ -27,9 +27,22 @@ def km_to_jku(lat, lon):
     return 2 * 6371 * math.asin(math.sqrt(h))
 
 
+def room_count(item):
+    num = r"\d+(?:[.,]\d+)?"
+    m = re.search(f"({num})", str(item.get("rooms") or ""))
+    if not m:
+        m = re.search(rf"(?<![\d.,])({num})\s*-?\s*(?:zi\b|zimmer|r[aä]um)", item.get("title") or "", re.I)
+    n = float(m.group(1).replace(",", ".")) if m else 0
+    return n or None
+
+
 def matches(item):
     title = item.get("title") or ""
     if re.search(r"stellpl|parkpl|garage", title, re.I) and not re.search(r"wohnung|zimmer", title, re.I):
+        return False
+    # Unknown room count passes, so a flat without that field is not missed.
+    rooms = room_count(item)
+    if rooms is not None and not CONFIG["min_rooms"] <= rooms <= CONFIG["max_rooms"]:
         return False
     if item.get("price") is None or item["price"] > CONFIG["max_rent"]:
         return False
